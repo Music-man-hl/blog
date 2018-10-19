@@ -47567,7 +47567,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(49);
-module.exports = __webpack_require__(104);
+module.exports = __webpack_require__(109);
 
 
 /***/ }),
@@ -50431,6 +50431,7 @@ if (inBrowser && window.Vue) {
 var routes = [{
     path: '/',
     component: __WEBPACK_IMPORTED_MODULE_0__pages_Layout_MainLayout_vue___default.a,
+    redirect: 'index',
     children: [{
         path: 'index',
         name: 'Home',
@@ -52745,7 +52746,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(102)
 /* template */
-var __vue_template__ = __webpack_require__(103)
+var __vue_template__ = __webpack_require__(108)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52829,6 +52830,28 @@ exports.push([module.i, "\n.picture-title {\n    border-color: #27293d;\n}\n", "
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BigView__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BigView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BigView__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -52886,19 +52909,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Index",
+    components: { BigView: __WEBPACK_IMPORTED_MODULE_0__BigView___default.a },
     data: function data() {
         return {
-            pictures: {},
-            file: {},
-            tags: []
+            data: {},
+            file: '',
+            tags: [],
+            showPictureSrc: '',
+            showPictureTitle: ''
         };
     },
     created: function created() {
         var _this = this;
         axios.get('/pictures').then(function (response) {
-            _this.pictures = response.data.data;
+            _this.data = response.data.data;
         }).catch(function (error) {
             layer.msg('错误');
             console.log(error);
@@ -52906,8 +52934,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        test: function test(p) {
-            console.log(p);
+        showPicture: function showPicture(data, title) {
+            this.showPictureSrc = data;
+            this.showPictureTitle = title;
         },
         uploadFile: function uploadFile(event) {
             if (event.target.files.length > 0) {
@@ -52937,14 +52966,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         add: function add(name) {
             var _this = this;
             var progress = document.getElementById("progressImage");
+            layer.load(2);
             axios.post('/pictures', { file: this.file, name: name }, {
                 onUploadProgress: function onUploadProgress(event) {
-                    progress.parentElement.style.display = 'flex';
-                    progress.style.width = (event.loaded / event.total * 100 | 0) + '%';
+                    // progress.parentElement.style.display = 'flex';
+                    // progress.style.width = (event.loaded / event.total * 100 | 0) + '%';
+                    console.log(event.loaded, event.total);
                 }
             }).then(function (response) {
                 _this.tags = response.data.data.tags;
-                console.log(response.data.data);
+                _this.data.files.push(response.data.data.picture);
+                layer.closeAll('loading');
                 layer.msg(response.data.msg);
             });
         },
@@ -52961,17 +52993,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
-        del: function del(data) {
+        del: function del(data, index) {
+            var _this = this;
             layer.msg('确定删除图片？', {
                 time: 0,
                 btn: ['删除', '不了'],
-                yes: function yes(index) {
-                    layer.close(index);
+                yes: function yes(ix) {
+                    layer.close(ix);
                     axios.post('/pictures/' + data.id, { _method: 'DELETE' }).then(function (response) {
                         layer.msg(response.data.msg);
+                        _this.data.files.splice(index, 1);
                     });
                 }
             });
+        },
+        btClick: function btClick() {
+            document.getElementById('file').click();
         }
     }
 });
@@ -52980,116 +53017,420 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(104)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(106)
+/* template */
+var __vue_template__ = __webpack_require__(107)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-7a21a68a"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/Admin/pages/Picture/BigView.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7a21a68a", Component.options)
+  } else {
+    hotAPI.reload("data-v-7a21a68a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(105);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("29169475", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7a21a68a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BigView.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7a21a68a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BigView.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "BigView",
+    props: {
+        pictureSrc: {
+            type: String,
+            required: false
+        },
+        pictureTitle: {
+            type: String,
+            required: false
+        }
+    }
+});
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "content" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-2" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "file" },
-            on: { change: _vm.uploadFile }
-          }),
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: "pictureModal",
+        tabindex: "-1",
+        role: "dialog",
+        "aria-labelledby": "pictureModalLabel",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "modal-dialog",
+          staticStyle: { "max-width": "1200px" },
+          attrs: { role: "document" }
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h5",
+                {
+                  staticClass: "modal-title",
+                  attrs: { id: "pictureModalLabel" }
+                },
+                [_vm._v(_vm._s(_vm.pictureTitle))]
+              ),
+              _vm._v(" "),
+              _vm._m(0)
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("img", { attrs: { src: _vm.pictureSrc, alt: "大图" } })
+            ])
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7a21a68a", module.exports)
+  }
+}
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "content" },
+    [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("div", { staticClass: "d-none" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "file", id: "file" },
+                on: { change: _vm.uploadFile }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn-info", on: { click: _vm.btClick } },
+              [_vm._v("添加图片")]
+            )
+          ]),
           _vm._v(" "),
-          _c("button", { staticClass: "btn btn-info" }, [_vm._v("添加图片")])
+          _c("br"),
+          _vm._v(" "),
+          _c("br")
         ]),
         _vm._v(" "),
-        _c("br"),
+        _vm._m(0),
         _vm._v(" "),
-        _c("br")
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card", staticStyle: { width: "20rem" } }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "ul",
+              { staticClass: "list-group-flush" },
+              _vm._l(_vm.tags, function(tag) {
+                return _c(
+                  "li",
+                  {
+                    staticClass: "list-group-item",
+                    staticStyle: { color: "black" }
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _vm._v(" " + _vm._s(tag.tag_name))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _vm._v(_vm._s(tag.tag_confidence) + "%")
+                      ])
+                    ])
+                  ]
+                )
+              })
+            )
+          ])
+        ])
       ]),
       _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-3" }, [
-        _c("div", { staticClass: "card", staticStyle: { width: "20rem" } }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c(
-            "ul",
-            { staticClass: "list-group-flush" },
-            _vm._l(_vm.tags, function(tag) {
-              return _c(
-                "li",
-                {
-                  staticClass: "list-group-item",
-                  staticStyle: { color: "black" }
-                },
-                [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _vm._v(" " + _vm._s(tag.tag_name))
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _vm._v(_vm._s(tag.tag_confidence) + "%")
-                    ])
-                  ])
-                ]
-              )
-            })
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "row" },
-      _vm._l(_vm.pictures.files, function(picture) {
-        return _c("div", { key: picture.id, staticClass: "col-md-3" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("img", {
-              staticClass: "card-img-top",
-              attrs: {
-                src: _vm.pictures.prefix + "/" + picture.url + "-thumbnail1",
-                alt: "Card image cap"
-              }
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  staticClass: "form-control picture-title",
-                  attrs: { type: "text", title: "" },
-                  domProps: { value: picture.title },
-                  on: {
-                    keyup: function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
+      _c(
+        "div",
+        { staticClass: "row" },
+        _vm._l(_vm.data.files, function(picture, index) {
+          return _c("div", { key: picture.id, staticClass: "col-md-3" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("img", {
+                staticClass: "card-img-top",
+                attrs: {
+                  src: _vm.data.prefix + picture.url + "-thumbnail",
+                  alt: "Card image cap"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    staticClass: "form-control picture-title",
+                    attrs: { type: "text", title: "" },
+                    domProps: { value: picture.title },
+                    on: {
+                      keyup: function($event) {
+                        if (
+                          !("button" in $event) &&
+                          _vm._k(
+                            $event.keyCode,
+                            "enter",
+                            13,
+                            $event.key,
+                            "Enter"
+                          )
+                        ) {
+                          return null
+                        }
+                        _vm.rename(picture, $event)
                       }
-                      _vm.rename(picture, $event)
                     }
-                  }
-                })
+                  })
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-text" }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-info",
+                    attrs: {
+                      "data-toggle": "modal",
+                      "data-target": "#pictureModal"
+                    },
+                    on: {
+                      click: function($event) {
+                        _vm.showPicture(
+                          _vm.data.prefix + picture.url,
+                          picture.title
+                        )
+                      }
+                    }
+                  },
+                  [_vm._v("查看\n                    ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-primary",
+                    attrs: {
+                      type: "button",
+                      "data-toggle": "collapse",
+                      "data-target": "#collapseTag" + picture.id,
+                      "aria-expanded": "false",
+                      "aria-controls": "#collapseTag" + picture.id
+                    }
+                  },
+                  [_vm._v("标签\n                    ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-primary",
+                    on: {
+                      click: function($event) {
+                        _vm.del(picture, index)
+                      }
+                    }
+                  },
+                  [_vm._v("删除")]
+                )
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "card-text" }),
-              _vm._v(" "),
               _c(
-                "button",
+                "div",
                 {
-                  staticClass: "btn btn-sm btn-primary",
-                  on: {
-                    click: function($event) {
-                      _vm.del(picture)
-                    }
-                  }
+                  staticClass: "collapse",
+                  attrs: { id: "collapseTag" + picture.id }
                 },
-                [_vm._v("删除")]
+                [
+                  _c(
+                    "div",
+                    { staticClass: "list-group" },
+                    _vm._l(picture.tags, function(tag) {
+                      return _c(
+                        "li",
+                        {
+                          staticClass: "list-group-item",
+                          staticStyle: { color: "black" }
+                        },
+                        [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _vm._v(" " + _vm._s(tag.name))
+                            ])
+                          ])
+                        ]
+                      )
+                    })
+                  )
+                ]
               )
             ])
           ])
-        ])
+        })
+      ),
+      _vm._v(" "),
+      _c("big-view", {
+        attrs: {
+          "picture-src": _vm.showPictureSrc,
+          "picture-title": _vm.showPictureTitle
+        }
       })
-    )
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -53098,11 +53439,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("div", { staticClass: "card" }, [
-        _c("img", {
-          staticStyle: { display: "none" },
-          attrs: { id: "previewImage", src: "", alt: "预览" }
-        }),
-        _vm._v(" "),
         _c(
           "div",
           { staticClass: "progress", staticStyle: { display: "none" } },
@@ -53118,10 +53454,15 @@ var staticRenderFns = [
               }
             })
           ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticStyle: { height: "4px" } })
+        ),
+        _vm._v(" "),
+        _c("div", { staticStyle: { display: "none", height: "2px" } }),
+        _vm._v(" "),
+        _c("img", {
+          staticStyle: { display: "none" },
+          attrs: { id: "previewImage", src: "", alt: "预览" }
+        })
+      ])
     ])
   },
   function() {
@@ -53144,7 +53485,7 @@ if (false) {
 }
 
 /***/ }),
-/* 104 */
+/* 109 */
 /***/ (function(module, exports) {
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }

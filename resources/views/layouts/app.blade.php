@@ -90,7 +90,7 @@
 
         <footer class="z-footer">
             <p class="z-text">this is diaodiao de blog!</p>
-            <p class="z-text-big">yo diaodiao</p>
+            <p class="z-text-big">hl diaodiao</p>
         </footer>
     </div>
 </body>

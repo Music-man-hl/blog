@@ -14,4 +14,9 @@ use Illuminate\Database\Eloquent\Model;
 class Picture extends Model
 {
     protected $guarded = ['id'];
+
+    public function tags()
+    {
+        return $this->morphToMany('App\Tag', 'other','tag_other');
+    }
 }

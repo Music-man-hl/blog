@@ -57,3 +57,52 @@ if (!function_exists('get_city')) {
         return false;
     }
 }
+
+if (!function_exists('getBase64Image')) {
+
+    /**
+     * @param $file
+     * @return array|bool|mixed
+     */
+    function getBase64Image($file)
+    {
+        return $fileContent = substr($file, strpos($file, ',') + 1);
+    }
+}
+
+if (!function_exists('uniqueString')) {
+
+    /**
+     * @return string
+     */
+    function uniqueString()
+    {
+        return md5(uniqid(microtime(true), true));
+    }
+}
+
+if (!function_exists('curl')) {
+
+    /**
+     * @param \GuzzleHttp\Client $client
+     * @param $method
+     * @param $url
+     * @param array $data
+     * @return string
+     */
+    function curl($method, $url, $data = [])
+    {
+        $client = App::make(\GuzzleHttp\Client::class);
+        try{
+            $res = $client->request($method, $url, $data);
+            if ($res->getStatusCode()==200){
+                return $res->getBody();
+            }
+            return null;
+        }catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            return $e->getMessage();
+        }
+    }
+}
+
+

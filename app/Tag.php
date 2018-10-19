@@ -4,24 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * App\Tag
- *
- * @property int $id
- * @property string $name
- * @property int $article_num
- * @property int $search_num
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Article[] $articles
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereArticleNum($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereSearchNum($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereUpdatedAt($value)
- * @mixin \Eloquent
- */
 class Tag extends Model
 {
     /**
@@ -30,7 +12,7 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'article_num', 'search_num'
+        'name'
     ];
 
     /**
@@ -38,6 +20,19 @@ class Tag extends Model
      */
     public function articles()
     {
-        return $this->belongsToMany('App\Article');
+        return $this->belongsToMany('App\Article', 'other');
+    }
+
+    public function pictures()
+    {
+        return $this->morphedByMany('App\Picture', 'other');
+    }
+
+    public static function savePictureTag($tags,$picture_id)
+    {
+        foreach ($tags as $tag) {
+            $tagModel = self::firstOrCreate(['name' => $tag->tag_name]);
+            TagOther::firstOrCreate(['tag_id' => $tagModel->id, 'other_type' => 'picture', 'other_id' => $picture_id, 'confidence' => $tag->tag_confidence]);
+        }
     }
 }

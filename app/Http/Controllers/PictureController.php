@@ -9,25 +9,28 @@
 namespace App\Http\Controllers;
 
 
+use App\Common\AiQQ;
 use App\Picture;
+use App\Tag;
 use Illuminate\Http\Request;
 use MusicManHl\QcloudImage\CIClient;
 use Storage;
 
 class PictureController extends Controller
 {
+    protected $domain;
 
     public function __construct()
     {
-
+        $this->domain = config('filesystems.disks.qiniu.domains.default');
     }
 
     public function index()
     {
-        $pictures = Picture::whereCategory(1)->get();
+        $pictures = Picture::whereCategory(1)->with('tags')->get();
 
         return success([
-            'prefix' => config('filesystems.disks.qiniu.domains.default'),
+            'prefix' => $this->domain,
             'files' => $pictures
         ]);
     }
@@ -35,26 +38,30 @@ class PictureController extends Controller
     public function store(Request $request)
     {
         try {
-            $file = substr($request->file, strpos($request->file, ',') + 1);
-            $result = Storage::disk('qiniu')->put('/' . $request->name, base64_decode($file));
-            if (!$result) {
+            $fileContent = getBase64Image($request->file);
+            $fullName = $this->generationImageName('/', $request->file);
+            $isStorage = Storage::disk('qiniu')->put($fullName, base64_decode($fileContent));
+            if (!$isStorage) {
                 return error();
             }
 
             $data = [
                 'user_id' => $request->user()->id,
                 'title' => $request->name,
-                'url' => $request->name,
+                'url' => $fullName,
                 'category' => $request->get('type', 1)
             ];
-            Picture::create($data);
+            $picture = Picture::create($data);
+            $result = $this->imageRecognition($fullName, $fileContent);
+            $tags = json_decode($result['tags'])->tags;
+            $info = $result['info'];
 
-            $tag = $this->imageRecognition($file);
+            Tag::savePictureTag($tags, $picture->id);
+
         } catch (\Exception $e) {
             return error($e->getMessage());
         }
-
-        return success(json_decode($tag));
+        return success(compact('picture', 'tags', 'info'));
     }
 
     public function update(Request $request, $id)
@@ -84,10 +91,26 @@ class PictureController extends Controller
 
     }
 
-    public function imageRecognition($fileBuffer)
+    public function generationImageName($path, $file)
     {
+        $filePath = $path;
+        $fileName = uniqueString();
+        preg_match('/.*\/(\w+);/', $file, $matches);
+        $fileSuffix = '.' . $matches[1];
+        return $filePath . $fileName . $fileSuffix;
+    }
+
+
+    public function imageRecognition($fileName, $base64)
+    {
+        $fileUrl = $this->domain . '/' . $fileName;
         $client = new CIClient(env('QCLOUD_APP_ID'), env('QCLOUD_SECRET_ID'), env('QCLOUD_SECRET_KEY'), '');
-        return $client->tagDetect(['base64' => $fileBuffer]);
+        $aiQQ = new AiQQ(env('AIQQ_APP_ID'), env('AIQQ_APP_KEY'));
+
+        return [
+            'info' => $aiQQ->faceRecognition($base64),
+            'tags' => $client->tagDetect(['url' => $fileUrl])
+        ];
     }
 
 }

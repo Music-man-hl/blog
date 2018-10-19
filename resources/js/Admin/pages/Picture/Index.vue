@@ -1,23 +1,25 @@
 <template>
     <div class="content">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <input v-on:change="uploadFile" class="form-control" type="file">
-                    <button class="btn btn-info">添加图片</button>
+                    <div class="d-none"><input v-on:change="uploadFile" class="form-control"
+                                               type="file" id="file"></div>
+                    <button v-on:click="btClick" class="btn btn-info">添加图片</button>
                 </div>
                 <br> <br>
             </div>
             <div class="col-md-3">
                 <div class="card">
-                    <img id="previewImage" src="" alt="预览" style="display: none;">
                     <div class="progress" style="display: none;">
                         <div class="progress-bar" role="progressbar" aria-valuenow="0"
                              aria-valuemin="0" id="progressImage"
                              aria-valuemax="100"></div>
                     </div>
+                    <div style="display: none; height: 2px;"></div>
+                    <img id="previewImage" src="" alt="预览" style="display: none;">
                 </div>
-                <div style="height: 4px"></div>
+
             </div>
             <div class="col-md-3">
                 <div class="card" style="width: 20rem;">
@@ -36,46 +38,70 @@
             </div>
         </div>
         <div class="row">
-            <div v-for="picture in pictures.files" v-bind:key="picture.id" class="col-md-3">
+            <div v-for="(picture,index) in data.files" v-bind:key="picture.id" class="col-md-3">
                 <div class="card">
-                    <img class="card-img-top" :src="pictures.prefix +'/'+ picture.url+'-thumbnail1'"
-                         alt="Card image cap">
+                    <img class="card-img-top" :src="data.prefix + picture.url+'-thumbnail'" alt="Card image cap">
                     <div class="card-body">
                         <div class="form-group">
                             <input v-on:keyup.enter="rename(picture,$event)" v-bind:value="picture.title"
                                    class="form-control picture-title" type="text" title="">
                         </div>
                         <p class="card-text"></p>
-                        <button v-on:click="del(picture)" class="btn btn-sm btn-primary">删除</button>
+                        <button v-on:click="showPicture(data.prefix + picture.url,picture.title)"
+                                class="btn btn-sm btn-info"
+                                data-toggle="modal"
+                                data-target="#pictureModal">查看
+                        </button>
+                        <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse"
+                                v-bind:data-target="'#collapseTag'+picture.id" aria-expanded="false"
+                                :aria-controls="'#collapseTag'+picture.id">标签
+                        </button>
+                        <button v-on:click="del(picture,index)" class="btn btn-sm btn-primary">删除</button>
+                    </div>
+                    <div class="collapse" v-bind:id="'collapseTag'+picture.id">
+                        <div class="list-group">
+                            <li v-for="tag in picture.tags" class="list-group-item" style="color: black;">
+                                <div class="row">
+                                    <div class="col-md-6"> {{ tag.name }}</div>
+                                </div>
+                            </li>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <big-view v-bind:picture-src=showPictureSrc v-bind:picture-title="showPictureTitle"></big-view>
     </div>
 </template>
 
 <script>
+    import BigView from "./BigView";
+
     export default {
         name: "Index",
+        components: {BigView},
         data() {
             return {
-                pictures: {},
-                file: {},
-                tags: []
+                data: {},
+                file: '',
+                tags: [],
+                showPictureSrc: '',
+                showPictureTitle: ''
             }
         },
         created() {
             let _this = this;
             axios.get('/pictures').then(function (response) {
-                _this.pictures = response.data.data;
+                _this.data = response.data.data;
             }).catch(function (error) {
                 layer.msg('错误');
                 console.log(error);
             });
         },
         methods: {
-            test(p) {
-                console.log(p)
+            showPicture(data, title) {
+                this.showPictureSrc = data;
+                this.showPictureTitle = title;
             },
             uploadFile(event) {
                 if (event.target.files.length > 0) {
@@ -106,14 +132,17 @@
             add(name) {
                 let _this = this;
                 let progress = document.getElementById("progressImage");
+                layer.load(2);
                 axios.post('/pictures', {file: this.file, name: name}, {
                     onUploadProgress(event) {
-                        progress.parentElement.style.display = 'flex';
-                        progress.style.width = (event.loaded / event.total * 100 | 0) + '%'
+                        // progress.parentElement.style.display = 'flex';
+                        // progress.style.width = (event.loaded / event.total * 100 | 0) + '%';
+                        console.log(event.loaded, event.total)
                     }
                 }).then(function (response) {
                     _this.tags = response.data.data.tags;
-                    console.log(response.data.data);
+                    _this.data.files.push(response.data.data.picture);
+                    layer.closeAll('loading');
                     layer.msg(response.data.msg);
                 })
             },
@@ -130,18 +159,23 @@
                     console.log(error);
                 });
             },
-            del(data) {
+            del(data, index) {
+                let _this = this;
                 layer.msg('确定删除图片？', {
                     time: 0,
                     btn: ['删除', '不了'],
-                    yes: function (index) {
-                        layer.close(index);
+                    yes: function (ix) {
+                        layer.close(ix);
                         axios.post('/pictures/' + data.id, {_method: 'DELETE'}).then(function (response) {
                             layer.msg(response.data.msg);
+                            _this.data.files.splice(index, 1)
                         })
                     }
                 })
-            }
+            },
+            btClick() {
+                document.getElementById('file').click()
+            },
         }
     }
 </script>

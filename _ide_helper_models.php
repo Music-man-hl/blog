@@ -12,22 +12,40 @@
 
 namespace App{
 /**
+ * App\TagOther
+ *
+ * @property int $id
+ * @property int $tag_id
+ * @property string|null $other_type
+ * @property int $other_id
+ * @property int|null $confidence
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TagOther whereConfidence($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TagOther whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TagOther whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TagOther whereOtherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TagOther whereOtherType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TagOther whereTagId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TagOther whereUpdatedAt($value)
+ */
+	class TagOther extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Tag
  *
  * @property int $id
  * @property string $name
- * @property int $article_num
- * @property int $search_num
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Article[] $articles
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereArticleNum($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Picture[] $pictures
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereSearchNum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class Tag extends \Eloquent {}
 }
@@ -166,6 +184,7 @@ namespace App{
  * @property string $url
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $tags
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Picture whereCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Picture whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Picture whereId($value)
