@@ -9,7 +9,7 @@
                 </div>
                 <br> <br>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-lg-2">
                 <div class="card">
                     <div class="progress" style="display: none;">
                         <div class="progress-bar" role="progressbar" aria-valuenow="0"
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="row">
-            <div v-for="(picture,index) in data.files" v-bind:key="picture.id" class="col-md-3">
+            <div v-for="(picture,index) in data.files" v-bind:key="picture.id" class="col-md-6 col-lg-4 col-xl-3">
                 <div class="card">
                     <img class="card-img-top" :src="data.prefix + picture.url+'-thumbnail'" alt="Card image cap">
                     <div class="card-body">
@@ -52,7 +52,7 @@
                                 data-toggle="modal"
                                 data-target="#pictureModal">查看
                         </button>
-                        <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse"
+                        <button class="btn btn-sm btn-info" type="button" data-toggle="collapse"
                                 v-bind:data-target="'#collapseTag'+picture.id" aria-expanded="false"
                                 :aria-controls="'#collapseTag'+picture.id">标签
                         </button>

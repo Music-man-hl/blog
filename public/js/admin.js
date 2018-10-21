@@ -53099,7 +53099,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -53110,6 +53110,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -53178,20 +53179,20 @@ var render = function() {
         },
         [
           _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c(
-                "h5",
-                {
-                  staticClass: "modal-title",
-                  attrs: { id: "pictureModalLabel" }
-                },
-                [_vm._v(_vm._s(_vm.pictureTitle))]
-              ),
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "h4",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "pictureModalLabel" }
+                  },
+                  [_vm._v(_vm._s(_vm.pictureTitle))]
+                )
+              ]),
               _vm._v(" "),
-              _vm._m(0)
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
               _c("img", { attrs: { src: _vm.pictureSrc, alt: "大图" } })
             ])
           ])
@@ -53211,11 +53212,12 @@ var staticRenderFns = [
         staticClass: "close",
         attrs: {
           type: "button",
+          "aria-hidden": "true",
           "data-dismiss": "modal",
           "aria-label": "Close"
         }
       },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      [_c("i", { staticClass: "tim-icons icon-simple-remove" })]
     )
   }
 ]
@@ -53301,124 +53303,128 @@ var render = function() {
         "div",
         { staticClass: "row" },
         _vm._l(_vm.data.files, function(picture, index) {
-          return _c("div", { key: picture.id, staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("img", {
-                staticClass: "card-img-top",
-                attrs: {
-                  src: _vm.data.prefix + picture.url + "-thumbnail",
-                  alt: "Card image cap"
-                }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("input", {
-                    staticClass: "form-control picture-title",
-                    attrs: { type: "text", title: "" },
-                    domProps: { value: picture.title },
-                    on: {
-                      keyup: function($event) {
-                        if (
-                          !("button" in $event) &&
-                          _vm._k(
-                            $event.keyCode,
-                            "enter",
-                            13,
-                            $event.key,
-                            "Enter"
-                          )
-                        ) {
-                          return null
+          return _c(
+            "div",
+            { key: picture.id, staticClass: "col-md-6 col-lg-4 col-xl-3" },
+            [
+              _c("div", { staticClass: "card" }, [
+                _c("img", {
+                  staticClass: "card-img-top",
+                  attrs: {
+                    src: _vm.data.prefix + picture.url + "-thumbnail",
+                    alt: "Card image cap"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
+                      staticClass: "form-control picture-title",
+                      attrs: { type: "text", title: "" },
+                      domProps: { value: picture.title },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          _vm.rename(picture, $event)
                         }
-                        _vm.rename(picture, $event)
                       }
-                    }
-                  })
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-info",
+                      attrs: {
+                        "data-toggle": "modal",
+                        "data-target": "#pictureModal"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.showPicture(
+                            _vm.data.prefix + picture.url,
+                            picture.title
+                          )
+                        }
+                      }
+                    },
+                    [_vm._v("查看\n                    ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-info",
+                      attrs: {
+                        type: "button",
+                        "data-toggle": "collapse",
+                        "data-target": "#collapseTag" + picture.id,
+                        "aria-expanded": "false",
+                        "aria-controls": "#collapseTag" + picture.id
+                      }
+                    },
+                    [_vm._v("标签\n                    ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          _vm.del(picture, index)
+                        }
+                      }
+                    },
+                    [_vm._v("删除")]
+                  )
                 ]),
                 _vm._v(" "),
-                _c("p", { staticClass: "card-text" }),
-                _vm._v(" "),
                 _c(
-                  "button",
+                  "div",
                   {
-                    staticClass: "btn btn-sm btn-info",
-                    attrs: {
-                      "data-toggle": "modal",
-                      "data-target": "#pictureModal"
-                    },
-                    on: {
-                      click: function($event) {
-                        _vm.showPicture(
-                          _vm.data.prefix + picture.url,
-                          picture.title
-                        )
-                      }
-                    }
+                    staticClass: "collapse",
+                    attrs: { id: "collapseTag" + picture.id }
                   },
-                  [_vm._v("查看\n                    ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-sm btn-primary",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "collapse",
-                      "data-target": "#collapseTag" + picture.id,
-                      "aria-expanded": "false",
-                      "aria-controls": "#collapseTag" + picture.id
-                    }
-                  },
-                  [_vm._v("标签\n                    ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-sm btn-primary",
-                    on: {
-                      click: function($event) {
-                        _vm.del(picture, index)
-                      }
-                    }
-                  },
-                  [_vm._v("删除")]
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "collapse",
-                  attrs: { id: "collapseTag" + picture.id }
-                },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "list-group" },
-                    _vm._l(picture.tags, function(tag) {
-                      return _c(
-                        "li",
-                        {
-                          staticClass: "list-group-item",
-                          staticStyle: { color: "black" }
-                        },
-                        [
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col-md-6" }, [
-                              _vm._v(" " + _vm._s(tag.name))
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "list-group" },
+                      _vm._l(picture.tags, function(tag) {
+                        return _c(
+                          "li",
+                          {
+                            staticClass: "list-group-item",
+                            staticStyle: { color: "black" }
+                          },
+                          [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _vm._v(" " + _vm._s(tag.name))
+                              ])
                             ])
-                          ])
-                        ]
-                      )
-                    })
-                  )
-                ]
-              )
-            ])
-          ])
+                          ]
+                        )
+                      })
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
         })
       ),
       _vm._v(" "),
@@ -53437,7 +53443,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
+    return _c("div", { staticClass: "col-md-3 col-lg-2" }, [
       _c("div", { staticClass: "card" }, [
         _c(
           "div",
