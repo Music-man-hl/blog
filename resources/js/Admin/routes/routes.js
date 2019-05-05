@@ -3,6 +3,7 @@ import MainLayout from '../pages/Layout/MainLayout.vue'
 import NotFound from '../pages/404'
 import Index from '../pages/Index'
 import ArticleIndex from '../pages/Article/Index'
+import ArticleAdd from '../pages/Article/Add'
 import PictureIndex from '../pages/Picture/Index.vue'
 
 const routes = [
@@ -20,6 +21,11 @@ const routes = [
                 path: 'article',
                 name: '日志管理',
                 component: ArticleIndex
+            },
+            {
+                path: 'article/add',
+                name: '新增日志',
+                component: ArticleAdd
             },
             {
                 path: 'picture',

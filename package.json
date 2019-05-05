@@ -11,16 +11,20 @@
     },
     "devDependencies": {
         "axios": "^0.18",
-        "bootstrap": "^4.0.0",
+        "bootstrap": "^4.1.1",
         "cross-env": "^5.1",
-        "jquery": "^3.2",
+        "jquery": "^3.4.1",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
-        "vue": "^2.5.16"
+        "vue": "^2.5.17"
     },
     "dependencies": {
-        "layui-src": "^2.3.0",
-        "vue-router": "3.0.1"
+        "editor.md": "^1.5.0",
+        "element-ui": "^2.4.6",
+        "nouislider": "^11.1.0",
+        "vue-lazyload": "^1.2.6",
+        "vue-router": "^3.0.1",
+        "vue2-transitions": "^0.2.3"
     }
 }

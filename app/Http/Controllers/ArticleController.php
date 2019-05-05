@@ -19,13 +19,13 @@ class ArticleController extends Controller
     {
         $articles = Article::offset(($request->page - 1) * $this->pageSize)->limit($this->pageSize)->get();
         $count = Article::count();
-        return ['code' => 0, 'msg' => '', 'count' => $count, 'data' => $articles];
+        return success(['count' => $count, 'list' => $articles]);
     }
 
     /**
      * @param Request $request
      * @param $id
-     * @return \Illuminate\View\View
+     * @return Article|Article[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function show(Request $request, $id)
     {
@@ -34,7 +34,7 @@ class ArticleController extends Controller
 
         $inputs = new CommentInputs($request);
 
-        return view('articles.show', compact('article', 'inputs'));
+        return success($article);
     }
 
     /*

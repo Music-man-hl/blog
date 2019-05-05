@@ -14,11 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/App/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
-mix.js(
-    [
-        'resources/js/Admin/app.js',
-        'resources/js/Admin/admin.js'
-    ], 'public/js/admin.js')
+mix.js('resources/js/Admin/admin.js', 'public/js/admin.js')
     .sass('resources/sass/admin.scss', 'public/css')
     .styles([
         'resources/vendor/black-dashboard/css/black-dashboard.css',
@@ -28,3 +24,11 @@ mix.js(
         'resources/vendor/black-dashboard/js/black-dashboard.js',
         'resources/vendor/black-dashboard/js/chartjs.min.js',
     ], 'public/js/admin-all.js');
+
+mix.webpackConfig({
+    resolve: {
+        alias: {
+            '@': require('path').resolve(__dirname, './resources/js/App/')
+        }
+    }
+});

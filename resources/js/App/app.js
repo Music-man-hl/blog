@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -14,10 +13,18 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import App from './App.vue';
+import router from './router';
+import NowUiKit from './plugins/now-ui-kit';
 
-// Vue.component('example-component', require('./admin/components/ExampleComponent.vue'));
-Vue.component('footer-component', require('./Footer.vue'));
+const global = {domain: '//pp6ykyogj.bkt.clouddn.com'};
+
+Vue.config.productionTip = false;
+Vue.use(NowUiKit);
+Vue.prototype.global = global;
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router,
+    render: h => h(App)
 });

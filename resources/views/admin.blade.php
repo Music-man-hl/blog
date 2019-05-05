@@ -13,7 +13,6 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('vendor/layui/css/layui.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin-all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </head>
@@ -22,7 +21,6 @@
 <div id="app"></div>
 
 <!-- Scripts -->
-<script src="{{ asset('vendor/layui/layui.js') }}"></script>
 <script src="{{ asset('js/admin.js') }}"></script>
 <script src="{{ asset('js/admin-all.js') }}"></script>
 </body>

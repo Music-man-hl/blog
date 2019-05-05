@@ -15,7 +15,7 @@ if (!function_exists('success')) {
      */
     function success($data = [], $msg = '成功')
     {
-        return response(['code' => 0, 'msg' => $msg, 'count' => 0, 'data' => $data]);
+        return response(['code' => 0, 'msg' => $msg, 'data' => $data]);
     }
 }
 

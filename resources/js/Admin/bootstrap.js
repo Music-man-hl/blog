@@ -38,11 +38,6 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-let layer;
-layui.use('layer', function () {
-    layer = layui.layer
-});
-
 window.axios.interceptors.response.use(function (response) {
     console.log(response);
     return response;

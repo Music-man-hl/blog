@@ -25,7 +25,7 @@
                                 <tbody>
                                 <tr v-for="article in articles">
                                     <td>{{ article.id }}</td>
-                                    <td><img v-bind:src="article.cover" alt="图片"></td>
+                                    <td><img v-bind:src="global.domain+article.cover" alt="图片"></td>
                                     <td>{{ article.title }}</td>
                                     <td>{{ article.content.slice(0,50) + '……' }}</td>
                                     <td>{{ article.view }}</td>
@@ -95,21 +95,13 @@
         methods: {
             switchTop(data) {
                 axios.get('/admin/articles/switch-top/' + data.id).then(function (response) {
-                    console.log(response);
                     layui.layer.msg(response.statusText);
-                }).catch(function (error) {
-                    layui.layer.msg('错误');
-                    console.log(error);
-                });
+                })
             },
             switchHidden(data) {
                 axios.get('/admin/articles/switch-hidden/' + data.id).then(function (response) {
-                    console.log(response);
                     layui.layer.msg(response.statusText);
-                }).catch(function (error) {
-                    layui.layer.msg('错误');
-                    console.log(error);
-                });
+                })
             },
             getPage(action) {
                 let _this = this;
@@ -124,15 +116,11 @@
                         _this.page = 1;
                 }
                 axios.get('/articles?page=' + _this.page).then(function (response) {
-                    _this.articles = response.data.data;
-                    console.log(_this.articles);
-                }).catch(function (error) {
-                    layui.layer.msg(error);
-                });
+                    _this.articles = response.data.data.list;
+                })
             }
         },
         created() {
-            layui.use('layer');
             this.getPage('get')
         }
     }

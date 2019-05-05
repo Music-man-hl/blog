@@ -1,36 +1,36 @@
 <template>
-    <main-layout>
-        <div id="editor" class="layui-form-item layui-form-text">
-            <label class="layui-form-label">写文章</label>
-            <div class="layui-input-block">
-                <textarea id="article" :value="input" @input="update" placeholder="请输入内容" class="layui-textarea"></textarea>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div id="editormd">
+                        <textarea style="display:none;">123123</textarea>
+                    </div>
+                </div>
             </div>
         </div>
-        <div v-html="compiledMarkdown"></div>
-        <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="demo2">跳转式提交</button>
-        </div>
-    </main-layout>
+    </div>
 </template>
 
 <script>
-    import MainLayout from "../layouts/MainLayout";
+    // import MainLayout from "../layouts/MainLayout";
 
     export default {
         name: "add",
-        components: {MainLayout},
+        components: {},
         data() {
             return {input: '# hello'}
         },
-        computed: {
-            compiledMarkdown: function () {
-                return marked(this.input, {sanitize: true})
-            }
-        },
+        computed: {},
         methods: {
-            update: _.debounce(function (e) {
-                this.input = e.target.value
-            }, 300)
+            update: function () {
+                testEditor = editormd("test-editormd", {
+                    width: "90%",
+                    height: 640,
+                    syncScrolling: "single",
+                    path: "../lib/"
+                })
+            }
         }
     }
 </script>

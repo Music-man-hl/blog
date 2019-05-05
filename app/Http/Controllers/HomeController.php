@@ -25,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return view('app');
+    }
+
+    public function post()
+    {
         $articles = Article::isPublic()->orderByTop()->latest()->limit(5)->get();
         return view('home', compact('articles'));
     }

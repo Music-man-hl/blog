@@ -24,6 +24,7 @@ Route::get('/user', function () {
 })->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/post', 'HomeController@post')->name('post');
 
 Route::resource('/articles', 'ArticleController');
 

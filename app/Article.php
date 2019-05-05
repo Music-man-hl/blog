@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -41,6 +42,16 @@ class Article extends Model
     protected $fillable = [
         'title', 'cover', 'content', 'is_top', 'is_hidden', 'view', 'comment'
     ];
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::createFromTimeString($value)->diffForHumans();
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::createFromTimeString($value)->toDateString();
+    }
 
     /**
      * 只查询发布的文章.
