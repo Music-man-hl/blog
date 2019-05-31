@@ -12,8 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/now-ui-kit.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .styles([
-        'resources/vendor/black-dashboard/css/black-dashboard.css',
-        'resources/vendor/black-dashboard/css/nucleo-icons.css'
-    ], 'public/css/admin-all.css');
+    .sass('resources/sass/now-ui-kit.scss', 'public/css');
