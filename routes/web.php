@@ -21,3 +21,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/articles', 'ArticleController');
 Route::resource('/comments', 'CommentController');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
