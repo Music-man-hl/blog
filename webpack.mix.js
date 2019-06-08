@@ -19,11 +19,11 @@ mix.js('resources/js/Admin/admin.js', 'public/js/admin.js')
     .styles([
         'resources/vendor/black-dashboard/css/black-dashboard.css',
         'resources/vendor/black-dashboard/css/nucleo-icons.css'
-    ], 'public/css/admin-all.css')
-    .scripts([
-        'resources/vendor/black-dashboard/js/black-dashboard.js',
-        'resources/vendor/black-dashboard/js/chartjs.min.js',
-    ], 'public/js/admin-all.js');
+    ], 'public/css/admin-all.css');
+    // .scripts([
+    //     'resources/vendor/black-dashboard/js/black-dashboard.js',
+    //     'resources/vendor/black-dashboard/js/chartjs.min.js',
+    // ], 'public/js/admin-all.js');
 
 mix.webpackConfig({
     resolve: {

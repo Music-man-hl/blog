@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div id="editormd">
-                        <textarea style="display:none;">123123</textarea>
+                        <textarea style="display:none;">### Hello Editor.md !</textarea>
                     </div>
                 </div>
             </div>
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-    // import MainLayout from "../layouts/MainLayout";
-
     export default {
         name: "add",
         components: {},
@@ -24,12 +22,17 @@
         computed: {},
         methods: {
             update: function () {
-                testEditor = editormd("test-editormd", {
-                    width: "90%",
-                    height: 640,
-                    syncScrolling: "single",
-                    path: "../lib/"
-                })
+                var editor = editormd("editormd", {
+                    path : "../lib/" // Autoload modules mode, codemirror, marked... dependents libs path
+                });
+
+                /*
+                // or
+                var editor = editormd({
+                    id   : "editormd",
+                    path : "../lib/"
+                });
+                */
             }
         }
     }
