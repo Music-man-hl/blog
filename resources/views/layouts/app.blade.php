@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', '一个博客') }}</title>
+    <title>@yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -20,15 +20,14 @@
 
     <!-- CSS Files -->
     <link href={{asset('css/app.css')}} rel="stylesheet" />
-    <link href={{asset('assets/css/material-kit.css')}} rel="stylesheet" />
+    <link href={{asset('assets/css/material-kit.min.css')}} rel="stylesheet" />
 </head>
-<body class="index-page sidebar-collapse">
+<body class="@yield('body-class') sidebar-collapse">
 <!-- Navbar -->
 <nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg"  color-on-scroll="100">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="https://demos.creative-tim.com/material-kit/index.html">
-                Material Kit </a>
+            <a class="navbar-brand" href="{{ route('home') }}"> Home </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="sr-only">Toggle navigation</span>
@@ -50,16 +49,19 @@
     </div>
 </nav>
 <!-- End Navbar -->
-
-@yield('content')
-
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ asset('assets/img/bg3.jpg') }}')">
+    @yield('header')
+</div>
+<div class="main main-raised">
+    @yield('content')
+</div>
 <footer class="footer footer-default" >
     <div class="container">
         <nav class="float-left">
             <ul>
                 <li>
-                    <a href="https://www.creative-tim.com/">
-                        Creative Tim
+                    <a href="{{ route('home') }}">
+                        {{ config('app.name', '一个博客') }}
                     </a>
                 </li>
             </ul>
