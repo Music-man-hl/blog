@@ -9,7 +9,7 @@
 @section('content')
     <div class="container">
         <div class="section text-center">
-{{--            <h2 class="title">Your main section here</h2>--}}
+            {{--            <h2 class="title">Your main section here</h2>--}}
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -18,7 +18,8 @@
                 <div class="card card-blog">
                     <div class="card-header card-header-image">
                         <div>
-                            <img class="img" src="{{ asset($article->cover ?: 'img/default.jpg') }}" alt="Card image cap">
+                            <img class="img" src="{{ asset($article->cover ?: 'img/default.jpg') }}"
+                                 alt="Card image cap">
                             <div class="card-title">
                                 {{ $article->title }}
                             </div>
@@ -28,14 +29,15 @@
                         @foreach($article->tags as $tag)
                             <h6 class="card-category text-info">{{ $tag->name }}<</h6>
                         @endforeach
+                        @inject('parsedown', 'Parsedown')
                         <p class="card-contact">
-                            {{ $article->content }}
+                            {!! $parsedown->text($article->content) !!}
                         </p>
                         <div class="card-footer">
                             <div class="author">
                             </div>
                             <div class="stats ml-auto">
-                                <i class="material-icons">access_time</i> {{ $article->created_at }}
+                                {{ $article->created_at }} <i class="material-icons">access_time</i>
                             </div>
                         </div>
 

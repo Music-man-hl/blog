@@ -16,13 +16,24 @@ Route::get('/', function () {
     return redirect('home');
 });
 
-//Auth::routes();
+Auth::routes();
+Route::middleware('auth')->get('/user', function () {
+    return Auth::getUser();
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('/articles', 'ArticleController');
-Route::resource('/comments', 'CommentController');
+Route::get('home', 'HomeController@index')->name('home');
+Route::resource('articles', 'ArticleController');
+Route::resource('comments', 'CommentController');
 
+Route::middleware(['auth'])->prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
 
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
+    Route::resource('articles', 'ArticleController');
+    Route::prefix('articles')->group(function () {
+
+        Route::get('/switch-hidden/{id}', 'ArticleController@switchHidden');
+
+        Route::get('/switch-top/{id}', 'ArticleController@switchTop');
+    });
+
+    Route::get('/', 'AdminController@index')->name('admin');
 });
