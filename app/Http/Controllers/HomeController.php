@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
+use App\Post;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $articles = Article::isPublic()->orderByTop()->latest()->limit(5)->get();
+        $articles = Post::with('tags')->isPublic()->orderByTop()->latest()->limit(5)->get();
 
         return view('home', compact('articles'));
     }

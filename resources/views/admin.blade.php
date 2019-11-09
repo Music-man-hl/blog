@@ -11,20 +11,18 @@
     <title>Blog后台</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/admin/main.js') }}" defer></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!--  Fonts and icons     -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 
     <!-- CSS Files -->
-    <link href={{asset('css/app.css')}} rel="stylesheet"/>
-    <link href={{asset('assets/css/material-kit.min.css')}} rel="stylesheet"/>
 </head>
 <body>
-<div class="app"></div>
+<div id="app" class="app"></div>
 </body>
 
 </html>

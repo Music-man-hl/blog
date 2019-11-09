@@ -29,7 +29,7 @@
                         <div class="card card-blog">
                             <div class="card-header card-header-image">
                                 <a href="{{ route('articles.show', $article->id) }}">
-                                    <img class="img" src="{{ asset($article->cover ?: 'img/default.jpg') }}"
+                                    <img class="img" src="{{ asset('storage/'.$article->image ?: 'img/default.jpg') }}"
                                          alt="Card image cap">
                                     <div class="card-title">
                                         {{ $article->title }}
@@ -42,7 +42,7 @@
                                 @endforeach
                                 @inject('parsedown', 'Parsedown')
                                 <p class="card-contact">
-                                    {!! Str::limit(strip_tags($parsedown->text($article->content)),660) !!}
+                                    {!! Str::limit(strip_tags($parsedown->text($article->body)),660) !!}
                                 </p>
                                 <div class="card-footer">
                                     <div class="author">

@@ -27,7 +27,7 @@ class Tag extends Model
      */
     public function articles()
     {
-        return $this->belongsToMany('App\Article', 'other');
+        return $this->belongsToMany('App\Post', 'other');
     }
 
     public function pictures()

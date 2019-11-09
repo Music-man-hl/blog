@@ -51,8 +51,7 @@
     </div>
 </nav>
 <!-- End Navbar -->
-<div class="page-header header-filter" data-parallax="true"
-     style="background-image: url('{{ asset('img/default2.jpg') }}')">
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ asset($bg_image) }}')">
     @yield('header')
 </div>
 <div class="main main-raised">

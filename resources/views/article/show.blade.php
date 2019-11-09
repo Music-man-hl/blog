@@ -18,7 +18,7 @@
                 <div class="card card-blog">
                     <div class="card-header card-header-image">
                         <div>
-                            <img class="img" src="{{ asset($article->cover ?: 'img/default.jpg') }}"
+                            <img class="img" src="{{ asset('storage/'.$article->image ?: 'img/default.jpg') }}"
                                  alt="Card image cap">
                             <div class="card-title">
                                 {{ $article->title }}
@@ -31,7 +31,7 @@
                         @endforeach
                         @inject('parsedown', 'Parsedown')
                         <p class="card-contact">
-                            {!! $parsedown->text($article->content) !!}
+                            {!! $parsedown->text($article->body) !!}
                         </p>
                         <div class="card-footer">
                             <div class="author">
